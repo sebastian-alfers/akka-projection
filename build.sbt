@@ -14,6 +14,7 @@ lazy val core =
       Compile / packageBin / packageOptions += Package.ManifestAttributes(
           "Automatic-Module-Name" -> "akka.projection.core"))
     .settings(Protobuf.settings)
+    .settings(Scala3.settings)
 
 lazy val coreTest =
   Project(id = "akka-projection-core-test", base = file("akka-projection-core-test"))
@@ -23,6 +24,7 @@ lazy val coreTest =
     .settings(Defaults.itSettings)
     .settings(Dependencies.coreTest)
     .settings(publish / skip := true)
+    .settings(Scala3.settings)
     .dependsOn(core)
     .dependsOn(testkit % Test)
 
@@ -32,6 +34,7 @@ lazy val testkit =
     .settings(headerSettings(IntegrationTest))
     .settings(Defaults.itSettings)
     .settings(Dependencies.testKit)
+    .settings(Scala3.settings)
     .dependsOn(core)
 
 // provides offset storage backed by a JDBC table
@@ -77,6 +80,7 @@ lazy val eventsourced =
     .settings(Dependencies.eventsourced)
     .dependsOn(core)
     .dependsOn(testkit % Test)
+    .settings(Scala3.settings)
 
 // provides offset storage backed by Kafka managed offset commits
 lazy val kafka =
@@ -96,6 +100,7 @@ lazy val `durable-state` =
     .settings(Dependencies.state)
     .dependsOn(core)
     .dependsOn(testkit % Test)
+    .settings(Scala3.settings)
 
 lazy val grpc =
   Project(id = "akka-projection-grpc", base = file("akka-projection-grpc"))
@@ -108,6 +113,7 @@ lazy val grpc =
     .dependsOn(testkit % Test)
     .enablePlugins(AkkaGrpcPlugin)
     .settings(akkaGrpcCodeGeneratorSettings += "server_power_apis", IntegrationTest / fork := true)
+    //.settings(Scala3.settings) // FIXME add scala3 support once circular dependency is resolved
 
 lazy val examples = project
   .configs(IntegrationTest.extend(Test))
