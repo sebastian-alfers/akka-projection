@@ -113,7 +113,21 @@ lazy val grpc =
     .dependsOn(testkit % Test)
     .enablePlugins(AkkaGrpcPlugin)
     .settings(akkaGrpcCodeGeneratorSettings += "server_power_apis", IntegrationTest / fork := true)
-    //.settings(Scala3.settings) // FIXME add scala3 support once circular dependency is resolved
+    .settings(Scala3.settings)
+
+lazy val grpcTest =
+  Project(id = "akka-projection-grpc-test", base = file("akka-projection-grpc-test"))
+    .configs(IntegrationTest)
+    .settings(headerSettings(IntegrationTest))
+    .disablePlugins(MimaPlugin)
+    .settings(Defaults.itSettings)
+    .settings(Dependencies.grpcTest)
+    .settings(publish / skip := true)
+    //.settings(Scala3.settings) // FIXME enable once we have a scala3 release for akka-projection-r2dbc
+    .dependsOn(grpc)
+    .dependsOn(testkit % Test)
+    .enablePlugins(AkkaGrpcPlugin)
+    .settings(akkaGrpcCodeGeneratorSettings += "server_power_apis", IntegrationTest / fork := true)
 
 lazy val examples = project
   .configs(IntegrationTest.extend(Test))

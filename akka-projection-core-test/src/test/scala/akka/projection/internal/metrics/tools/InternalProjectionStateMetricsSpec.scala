@@ -134,7 +134,7 @@ object InternalProjectionStateMetricsSpec {
     val adaptedHandlerStrategy: HandlerStrategy = offsetStrategy match {
       case ExactlyOnce(_) =>
         handlerStrategy match {
-          case SingleHandlerStrategy(handlerFactory: Function0[Handler[Envelope]]) => {
+          case SingleHandlerStrategy(handlerFactory) => {
             val adaptedHandler = () =>
               new Handler[Envelope] {
                 override def process(envelope: Envelope): Future[Done] = handlerFactory().process(envelope).flatMap {
@@ -144,10 +144,7 @@ object InternalProjectionStateMetricsSpec {
               }
             SingleHandlerStrategy(adaptedHandler)
           }
-          case GroupedHandlerStrategy(
-              handlerFactory: Function0[Handler[immutable.Seq[Envelope]]],
-              afterEnvelopes,
-              orAfterDuration) => {
+          case GroupedHandlerStrategy(handlerFactory, afterEnvelopes, orAfterDuration) => {
             val adaptedHandler = () =>
               new Handler[immutable.Seq[Envelope]] {
                 override def process(envelopes: immutable.Seq[Envelope]): Future[Done] =
