@@ -108,10 +108,10 @@ accept an entity name, a @apidoc[ReplicationProjectionProvider] and an actor sys
 is expected to have a top level entry with the entity name containing this structure:
 
 Scala
-:  @@snip [config](/akka-projection-grpc/src/test/scala/akka/projection/grpc/replication/ReplicationSettingsSpec.scala) { #config }
+:  @@snip [config](/akka-projection-grpc-test/src/test/scala/akka/projection/grpc/replication/ReplicationSettingsSpec.scala) { #config }
 
 Java
-:  @@snip [config](/akka-projection-grpc/src/test/scala/akka/projection/grpc/replication/ReplicationSettingsSpec.scala) { #config }
+:  @@snip [config](/akka-projection-grpc-test/src/test/scala/akka/projection/grpc/replication/ReplicationSettingsSpec.scala) { #config }
 
 The entries in the block refer to the local replica while `replicas` is a list of all replicas, including the node itself, 
 with details about how to reach the replicas across the network. 
@@ -150,10 +150,10 @@ be passed at once to `EventProducer.grpcServiceHandler` to create a single produ
 streams.
 
 Scala
-:  @@snip [ProducerApiSample.scala](/akka-projection-grpc/src/test/scala/akka/projection/grpc/replication/scaladsl/ProducerApiSample.scala) { #multi-service }
+:  @@snip [ProducerApiSample.scala](/akka-projection-grpc-test/src/test/scala/akka/projection/grpc/replication/scaladsl/ProducerApiSample.scala) { #multi-service }
 
 Java
-:  @@snip [ReplicationCompileTest.java](/akka-projection-grpc/src/test/java/akka/projection/grpc/replication/javdsl/ReplicationCompileTest.java) { #multi-service }
+:  @@snip [ReplicationCompileTest.java](/akka-projection-grpc-test/src/test/java/akka/projection/grpc/replication/javdsl/ReplicationCompileTest.java) { #multi-service }
 
 
 The Akka HTTP server must be running with HTTP/2, this is done through config:
